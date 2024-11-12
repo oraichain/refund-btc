@@ -1,0 +1,41 @@
+[package]
+authors = ["Oraichain Labs"]
+documentation = "https://github.com/oraichain/refund-btc.git"
+edition = "2021"
+exclude = [
+  # Those files are rust-optimizer artifacts. You might want to commit them for convenience but they should not be part of the source code publication.
+  "contract.wasm",
+  "hash.txt",
+]
+homepage = "https://orai.io"
+license = "MIT"
+name = "refund-btc"
+repository = "https://github.com/oraichain/refund-btc.git"
+resolver = '2'
+version = "0.2.0"
+
+[profile.release]
+codegen-units = 1
+debug = false
+debug-assertions = false
+incremental = false
+lto = true
+opt-level = 3
+overflow-checks = true
+panic = 'abort'
+rpath = false
+
+[dependencies]
+cosmwasm-schema = {version = "1.5"}
+cosmwasm-std = {version = "1.5"}
+cosmwasm-storage = {version = "1.5"}
+cosmwasm-testing-util = {git = "https://github.com/oraichain/cosmwasm-testing-util.git", rev = "4887c6e"}
+cosmwasm-vm = {version = "1.5"}
+cw-storage-plus = {version = "1.0.1"}
+cw2 = {version = "1.0.1"}
+cw20 = {version = "1.0.1"}
+cw20-base = {version = "1.0.1"}
+derive_more = "0.99.17"
+thiserror = "1.0.26"
+
+[dev-dependencies]
