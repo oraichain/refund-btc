@@ -36,6 +36,7 @@ cw2 = {version = "1.0.1"}
 cw20 = {version = "1.0.1"}
 cw20-base = {version = "1.0.1"}
 derive_more = "0.99.17"
+oraiswap = {git = "https://github.com/oraichain/oraiswap.git", rev = "c5fd186"}
 thiserror = "1.0.26"
 
 [dev-dependencies]

@@ -1,10 +1,8 @@
 #[cfg(not(feature = "library"))]
 use cosmwasm_std::entry_point;
-use cosmwasm_std::{
-    to_json_binary, Addr, BankMsg, Binary, Coin, Deps, DepsMut, Env, MessageInfo, Response,
-    StdResult,
-};
+use cosmwasm_std::{to_json_binary, Binary, Deps, DepsMut, Env, MessageInfo, Response, StdResult};
 use cw2::set_contract_version;
+use oraiswap::asset::Asset;
 
 use crate::{
     error::ContractError,
@@ -43,13 +41,14 @@ pub fn execute(
     match msg {
         ExecuteMsg::Claim {} => {
             let sender = info.sender;
-            let rewards = REWARD_TOKENS
+            let rewards: Vec<Asset> = REWARD_TOKENS
                 .load(deps.storage, sender.clone())
                 .unwrap_or(vec![]);
-            return Ok(Response::new().add_message(BankMsg::Send {
-                to_address: sender.to_string(),
-                amount: rewards,
-            }));
+            let mut msgs = vec![];
+            for reward in rewards.iter() {
+                msgs.push(reward.into_msg(None, &deps.querier, sender.clone())?);
+            }
+            return Ok(Response::new().add_messages(msgs));
         }
         ExecuteMsg::AddRewarders { rewarders, rewards } => {
             let config = CONFIG.load(deps.storage)?;

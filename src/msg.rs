@@ -1,5 +1,6 @@
 use cosmwasm_schema::{cw_serde, QueryResponses};
 use cosmwasm_std::{Addr, Coin, Uint128};
+use oraiswap::asset::Asset;
 
 use crate::state::Config;
 
@@ -16,7 +17,7 @@ pub enum ExecuteMsg {
     Claim {},
     AddRewarders {
         rewarders: Vec<Addr>,
-        rewards: Vec<Vec<Coin>>,
+        rewards: Vec<Vec<Asset>>,
     },
 }
 
