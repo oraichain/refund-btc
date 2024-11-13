@@ -5,11 +5,6 @@ use oraiswap::asset::Asset;
 use crate::state::Config;
 
 #[cw_serde]
-pub struct RewardTokensResponse {
-    pub reward_tokens: Vec<Asset>,
-}
-
-#[cw_serde]
 pub struct InstantiateMsg {}
 
 #[cw_serde]
@@ -21,7 +16,7 @@ pub enum ExecuteMsg {
 #[cw_serde]
 #[derive(QueryResponses)]
 pub enum QueryMsg {
-    #[returns(RewardTokensResponse)]
+    #[returns(Vec<Asset>)]
     RewardTokens { addr: Addr },
     #[returns(Config)]
     Config {},
