@@ -1,12 +1,12 @@
 use cosmwasm_schema::{cw_serde, QueryResponses};
-use cosmwasm_std::{Addr, Coin, Uint128};
+use cosmwasm_std::{Addr, Uint128};
 use oraiswap::asset::Asset;
 
 use crate::state::Config;
 
 #[cw_serde]
 pub struct RewardTokensResponse {
-    pub reward_tokens: Vec<Coin>,
+    pub reward_tokens: Vec<Asset>,
 }
 
 #[cw_serde]
