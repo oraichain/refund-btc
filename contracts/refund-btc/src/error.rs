@@ -6,8 +6,6 @@ pub enum ContractError {
     Std(#[from] StdError),
     #[error("unauthorized")]
     Unauthorized {},
-    #[error("invalid arguments")]
-    InvalidArguments {},
 }
 
 impl From<ContractError> for StdError {

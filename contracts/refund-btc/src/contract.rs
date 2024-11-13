@@ -50,25 +50,19 @@ pub fn execute(
             }
             return Ok(Response::new().add_messages(msgs));
         }
-        ExecuteMsg::AddRewarders { rewarders, rewards } => {
+        ExecuteMsg::AddRewarder { rewarder, rewards } => {
             let config = CONFIG.load(deps.storage)?;
             let owner = config.owner;
             if owner != info.sender {
                 return Err(ContractError::Unauthorized {});
             }
-            if rewarders.len() != rewards.len() {
-                return Err(ContractError::InvalidArguments {});
+            let mut store_rewards = REWARD_TOKENS
+                .load(deps.storage, rewarder.clone())
+                .unwrap_or(vec![]);
+            for reward_item in rewards.iter() {
+                store_rewards.push(reward_item.clone());
             }
-            for (i, rewarder) in rewarders.iter().enumerate() {
-                let mut store_rewards = REWARD_TOKENS
-                    .load(deps.storage, rewarder.clone())
-                    .unwrap_or(vec![]);
-                let rewards_arr = rewards.get(i).unwrap();
-                for reward_item in rewards_arr.iter() {
-                    store_rewards.push(reward_item.clone());
-                }
-                REWARD_TOKENS.save(deps.storage, rewarder.clone(), &store_rewards)?;
-            }
+            REWARD_TOKENS.save(deps.storage, rewarder.clone(), &store_rewards)?;
             Ok(Response::default())
         }
     }

@@ -32,9 +32,9 @@ fn test_simple_flows() {
     app.execute(
         Addr::unchecked(owner.clone()),
         contract_addr.clone(),
-        &crate::msg::ExecuteMsg::AddRewarders {
-            rewarders: vec![Addr::unchecked(alice.clone())],
-            rewards: vec![vec![
+        &crate::msg::ExecuteMsg::AddRewarder {
+            rewarder: Addr::unchecked(alice.clone()),
+            rewards: vec![
                 Asset {
                     info: AssetInfo::NativeToken {
                         denom: "orai".to_string(),
@@ -53,7 +53,7 @@ fn test_simple_flows() {
                     },
                     amount: Uint128::new(100),
                 },
-            ]],
+            ],
         },
         &[],
     )

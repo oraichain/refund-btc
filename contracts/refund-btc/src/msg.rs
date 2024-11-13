@@ -15,10 +15,7 @@ pub struct InstantiateMsg {}
 #[cw_serde]
 pub enum ExecuteMsg {
     Claim {},
-    AddRewarders {
-        rewarders: Vec<Addr>,
-        rewards: Vec<Vec<Asset>>,
-    },
+    AddRewarder { rewarder: Addr, rewards: Vec<Asset> },
 }
 
 #[cw_serde]
