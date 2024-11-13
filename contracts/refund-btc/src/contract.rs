@@ -1,5 +1,6 @@
 #[cfg(not(feature = "library"))]
 use cosmwasm_std::entry_point;
+use cosmwasm_std::Uint128;
 use cosmwasm_std::{to_json_binary, Binary, Deps, DepsMut, Env, MessageInfo, Response, StdResult};
 use cw2::set_contract_version;
 use oraiswap::asset::Asset;
@@ -46,8 +47,13 @@ pub fn execute(
                 .unwrap_or(vec![]);
             let mut msgs = vec![];
             for reward in rewards.iter() {
-                msgs.push(reward.into_msg(None, &deps.querier, sender.clone())?);
+                msgs.push(
+                    reward
+                        .clone()
+                        .into_msg(None, &deps.querier, sender.clone())?,
+                );
             }
+            REWARD_TOKENS.remove(deps.storage, sender.clone());
             return Ok(Response::new().add_messages(msgs));
         }
         ExecuteMsg::AddRewarder { rewarder, rewards } => {

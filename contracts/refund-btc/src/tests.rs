@@ -116,4 +116,15 @@ fn test_simple_flows() {
         )
         .unwrap();
     assert_eq!(balance.balance, Uint128::new(100));
+
+    // validate reward is empty
+    let reward_tokens: Vec<Asset> = app
+        .query(
+            contract_addr.clone(),
+            &crate::msg::QueryMsg::RewardTokens {
+                addr: Addr::unchecked(alice.clone()),
+            },
+        )
+        .unwrap();
+    assert_eq!(reward_tokens.len(), 0);
 }
